@@ -1,8 +1,80 @@
+@font-face {
+    font-family: LuxuriousRoman-Regular;
+    src: url('./fonts/LuxuriousRoman-Regular.ttf');
+}
+
+*{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+body{
+    background-color: rgb(194, 223, 194);
+}
+
+img{
+    width: 30px;
+    height: 30px;
+}
+
+#header{
+    background-color: rgb(158, 171, 190);
+    height: 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+#header h1{
+    font-family: LuxuriousRoman-Regular;
+    font-size: 45px;
+    margin-right: 35%;
+    min-width: 380px;
+}
+
+#header button{
+    font-weight: bold;
+    background-color: rgb(194, 129, 194);
+    border-radius: 10px;
+    margin: 5px;
+    align-self: stretch;
+}
+
+#container{
+    display: flex;
+}
+
 #books{
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+    align-items: left;
+}
+
+#books button{
+    background: none;
+	color: inherit;
+	border: none;
+}
+
+#books div{
+    flex: 1;
     display: flex;
 }
 
 #books div div{
+    background-color: rgb(219, 208, 208);
+    flex: 1;
     border: 1px black solid;
     padding: 10px
+}
+
+#books .notRead{
+    background-color: rgb(209, 87, 87);
+}
+
+#books .read{
+    background-color: rgb(107, 196, 107);
 }
