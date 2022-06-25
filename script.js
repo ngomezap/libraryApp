@@ -30,7 +30,10 @@ function addBookLibrary(){
     let title = titulo.value;
     let author = autor.value;
     let pages = paginas.value;
-    let read = true;
+    let read = false;
+    if(checkbox.checked){
+        read = true;
+    }
     /*do{
         read = prompt('Read? (y/n)');
     }while(!read.toLowerCase() === 'y' && !read.toLowerCase() === 'n');
@@ -149,6 +152,7 @@ const titulo = document.getElementById('titulo');
 const autor = document.getElementById('autor');
 const paginas = document.getElementById('paginas');
 const enviar = document.getElementById('enviar');
+const checkbox = document.getElementById('read');
 
 let myStorage = window.localStorage;
 let listOfKeys = Object.keys(myStorage);
