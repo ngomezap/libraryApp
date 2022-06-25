@@ -1,11 +1,21 @@
 class Book{
-    constructor(title, author, pages, read){
+
+    constructor(id, title, author, pages, read){
+        this.id = id;
         this.title = title
         this.author = author
         this.pages = pages
         this.read = read
     }
 
+    static getId = function(){
+        let lastId = 0;
+        while(listOfKeys.includes(lastId.toString())){
+            lastId++;
+        }
+        return lastId;
+    }
+    
     info = () => {
         if(read){
             return `${title} by ${author}, ${pages} pages, already read`;
@@ -16,24 +26,27 @@ class Book{
 }
 
 function addBookLibrary(){
-    const title = prompt('Title:');
-    const author = prompt('Author:');
-    const pages = parseInt(prompt('Pages:'));
-    let read;
-    do{
+
+    let title = titulo.value;
+    let author = autor.value;
+    let pages = paginas.value;
+    let read = true;
+    /*do{
         read = prompt('Read? (y/n)');
     }while(!read.toLowerCase() === 'y' && !read.toLowerCase() === 'n');
     if(read.toLowerCase() === 'y'){
         read = true;
     }else{
         read = false;
-    }
-    book = new Book(title, author, pages, read);
-    myLibrary.push(book);
+    }*/
+    book = new Book(Book.getId(), title, author, pages, read);
+    myStorage.setItem(book.id, JSON.stringify(book));
     addToTable(book);
+    form.className = 'hidden'
 }
 
 function addToTable(book){
+    let counter = 0;
     //Create 'div' where book data will be stored
     const divBook = document.createElement('div');
     container.appendChild(divBook);
@@ -53,10 +66,13 @@ function addToTable(book){
                 div.setAttribute('class', 'notRead');
                 divBook.appendChild(div);
             }
+        }else if(counter === 0){
+            counter++;
+            continue;
         }else{
             const div = document.createElement('div');
             div.innerText = book[key];
-            div.setAttribute('data-index', myLibrary.map(e => e.title).indexOf(book.title));
+            div.setAttribute('data-index', book.id);
             divBook.appendChild(div);
             if(key === 'pages'){
                 div.innerText += ' pp';
@@ -73,6 +89,7 @@ function deleteBook(e){
     const bookDivs = Array.from(container.childNodes);
     bookDivs.forEach(function(book){
         if(e.currentTarget.getAttribute('data-index') === book.firstChild.getAttribute('data-index')){
+            myStorage.removeItem(e.currentTarget.getAttribute('data-index'));
             book.remove();
         }
     })
@@ -84,12 +101,15 @@ function readBook(e){
     bookDivs.forEach(function(book){
         let index = book.firstChild.getAttribute('data-index');
         if(e.currentTarget.getAttribute('data-index') === index){
-            if(myLibrary[index].read){
-                myLibrary[index].read = false;
+            let bookJS = JSON.parse(myStorage.getItem(index));
+            if(bookJS.read === true){
+                bookJS.read = false;
+                myStorage.setItem(index, JSON.stringify(bookJS));
                 book.childNodes[3].innerText = 'Not read';
                 book.childNodes[3].setAttribute('class', 'notRead');
             }else{
-                myLibrary[index].read = true;
+                bookJS.read = true;
+                myStorage.setItem(index, JSON.stringify(bookJS));
                 book.childNodes[3].innerText = 'Read';
                 book.childNodes[3].setAttribute('class', 'read');
             }
@@ -99,7 +119,7 @@ function readBook(e){
 
 function deleteColumn(book){
     deleteButton = document.createElement('button');
-    deleteButton.setAttribute('data-index', myLibrary.map(e => e.title).indexOf(book.title));
+    deleteButton.setAttribute('data-index', book.id);
     container.lastChild.appendChild(deleteButton);
     
     //Add icon to delete button
@@ -112,7 +132,7 @@ function deleteColumn(book){
 
 function readColumn(book){
     readButton = document.createElement('button');
-    readButton.setAttribute('data-index', myLibrary.map(e => e.title).indexOf(book.title));
+    readButton.setAttribute('data-index', book.id);
     
     //Add icon to read button
     eyeSymbol = document.createElement('img');
@@ -122,18 +142,27 @@ function readColumn(book){
     readButton.addEventListener('click', readBook);
 }
 
+const form  = document.getElementsByTagName('form')[0];
 const container = document.getElementById('books');
 const newBook = document.getElementById('newBook');
+const titulo = document.getElementById('titulo');
+const autor = document.getElementById('autor');
+const paginas = document.getElementById('paginas');
+const enviar = document.getElementById('enviar');
 
-let myLibrary = [];
+let myStorage = window.localStorage;
+let listOfKeys = Object.keys(myStorage);
 
-const laPeste = new Book('La Peste', 'Albert Camus', 359, true);
-const elExtranjero = new Book('El Extranjero', 'Albert Camus', 201, false);
-
-myLibrary.push(laPeste, elExtranjero);
-
-myLibrary.forEach(function(book){
+listOfKeys.forEach((k) => {
+    let book = JSON.parse(myStorage.getItem(k));
     addToTable(book);
-})
+});
 
-newBook.addEventListener('click', addBookLibrary)
+newBook.addEventListener('click', () => {
+    if(form.className !== 'floating')
+        form.className = 'floating';
+    else
+        form.className = 'floating hidden';
+});
+
+enviar.addEventListener('click', addBookLibrary)
