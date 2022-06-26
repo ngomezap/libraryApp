@@ -12,8 +12,10 @@ html,body{
 }
 
 body{
-    background-color: rgb(194, 223, 194);
+    background: url(./images/background.jpg) no-repeat center ;
+    background-size: cover;
     position: relative;
+    padding-bottom: 5px;
 }
 
 
@@ -52,6 +54,7 @@ img{
 }
 
 #books{
+    position: relative;
     display: flex;
     flex-direction: column;
     width: 90%;
@@ -66,24 +69,34 @@ img{
 	border: none;
 }
 
+#books .delBtn{
+    position: absolute;
+    right: 10px;
+}
+
+#books .readBtn{
+    position: absolute;
+    right: 50px;
+}
+
 #books div{
     flex: 1;
     display: flex;
 }
 
 #books div div{
-    background-color: rgb(219, 208, 208);
+    background-color: rgba(219, 208, 208, 0.726);
     flex: 1;
     border: 1px black solid;
     padding: 10px
 }
 
 #books .notRead{
-    background-color: rgb(209, 87, 87);
+    background-color: rgba(209, 87, 87, 0.74);
 }
 
 #books .read{
-    background-color: rgb(107, 196, 107);
+    background-color: rgba(107, 196, 107, 0.747);
 }
 
 

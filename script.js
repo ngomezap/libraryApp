@@ -123,6 +123,7 @@ function readBook(e){
 function deleteColumn(book){
     deleteButton = document.createElement('button');
     deleteButton.setAttribute('data-index', book.id);
+    deleteButton.setAttribute('class', 'delBtn');
     container.lastChild.appendChild(deleteButton);
     
     //Add icon to delete button
@@ -136,7 +137,7 @@ function deleteColumn(book){
 function readColumn(book){
     readButton = document.createElement('button');
     readButton.setAttribute('data-index', book.id);
-    
+    readButton.setAttribute('class', 'readBtn');
     //Add icon to read button
     eyeSymbol = document.createElement('img');
     eyeSymbol.setAttribute('src', './images/symbolEye.png');
